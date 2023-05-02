@@ -115,13 +115,32 @@ const printRows = (rows) => {
     }
 }
 
+const getWinnings = (rows, bet, lines) => {
+    let winings = 0;
+    for (let row = 0; row < lines; row++) {
+        const symbols = rows[row];
+        let allSame = true;
+        for (const symbol of symbols) {
+            if (symbol != symbols[0]) {
+                allSame = false;
+                break;
+            }
+        }
+
+        if (allSame) {
+            winings += bet * SYMBOLS_VALUES[symbols[0]];
+        }
+    }
+    return winings;
+}
+
 let balance = deposit();
 // console.log("Your deposited amount is: " + depositAmount);
 
-const numberOfLines = getNumberOfLines();
+const lines = getNumberOfLines();
 // console.log("Your selected number of lines: " + line);
 
-const bet = getBet(balance, numberOfLines);
+const bet = getBet(balance, lines);
 
 const reels = spin();
 // console.log(reels);
@@ -131,5 +150,7 @@ console.log(reels);
 console.log(rows);
 
 printRows(rows);
+const winnings = getWinnings(rows, bet, lines);
+console.log("you won, $" + winnings.toString());
 
 
